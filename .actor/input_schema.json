@@ -1,0 +1,84 @@
+{
+    "title": "Discord Ultimate Scraper Input Schema",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "mode": {
+            "title": "Scraping Mode",
+            "type": "string",
+            "description": "Select Discord extraction mode, or use AUTO_DETECT.",
+            "default": "AUTO_DETECT",
+            "editor": "select",
+            "enum": [
+                "AUTO_DETECT",
+                "SERVERS",
+                "MESSAGES",
+                "SERVER_FINDER"
+            ],
+            "enumTitles": [
+                "Auto-Detect (From URLs)",
+                "Public Servers (Invites, Members, Online Counts & Features)",
+                "Channel Messages & Chat History",
+                "Server Finder by Keyword (Discover Public Communities)"
+            ]
+        },
+        "targetUrls": {
+            "title": "Target Discord Invite URLs",
+            "type": "array",
+            "description": "List of Discord invite links (e.g., https://discord.gg/python or https://discord.gg/openai).",
+            "editor": "stringList",
+            "prefill": [
+                "https://discord.gg/python",
+                "https://discord.gg/openai"
+            ]
+        },
+        "searchKeywords": {
+            "title": "Search Keywords for Server Finder",
+            "type": "array",
+            "description": "Keywords to discover public Discord communities across the web.",
+            "editor": "stringList",
+            "prefill": [
+                "artificial intelligence community",
+                "indie hackers startups"
+            ]
+        },
+        "channelIds": {
+            "title": "Discord Channel IDs (For Messages)",
+            "type": "array",
+            "description": "Channel IDs to extract message history from (requires discordToken).",
+            "editor": "stringList"
+        },
+        "maxMessages": {
+            "title": "Maximum Messages Per Channel",
+            "type": "integer",
+            "description": "Maximum number of messages to extract per channel.",
+            "default": 50,
+            "minimum": 1,
+            "maximum": 2000
+        },
+        "maxItems": {
+            "title": "Maximum Items / Servers to Process",
+            "type": "integer",
+            "description": "Maximum number of servers or discovery results to process.",
+            "default": 30,
+            "minimum": 1,
+            "maximum": 1000
+        },
+        "discordToken": {
+            "title": "Discord Token (Optional)",
+            "type": "string",
+            "description": "Optional Discord Bot or User token for extracting channel messages. Not needed for public server invites.",
+            "editor": "textfield"
+        },
+        "proxyConfiguration": {
+            "title": "Proxy Configuration",
+            "type": "object",
+            "description": "Select Apify Proxy (RESIDENTIAL recommended to avoid rate limits).",
+            "editor": "proxy",
+            "default": {
+                "useApifyProxy": true
+            }
+        }
+    },
+    "required": []
+}
