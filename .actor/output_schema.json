@@ -1,0 +1,18 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Discord Ultimate Scraper Output",
+    "properties": {
+        "results": {
+            "type": "string",
+            "title": "Dataset Records",
+            "description": "Scraped Discord records (Servers, Guilds, Members, Messages, Channels)",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        },
+        "overview": {
+            "type": "string",
+            "title": "Executive Summary Payload",
+            "description": "High-level summary report and execution metrics stored in Key-Value store",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+        }
+    }
+}
