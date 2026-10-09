@@ -1,0 +1,25 @@
+{
+    "actorSpecification": 1,
+    "name": "discord-ultimate-scraper",
+    "title": "Discord Ultimate Scraper (Servers, Members, Online Counts & Messages)",
+    "description": "Comprehensive Discord data extractor & server discovery engine. Extracts Public Servers & Guilds (Total members, Online presence, Server icons/banners, Verification status), Channel Messages & History, and Server Finder by Keyword without needing a bot.",
+    "version": "1.0.0",
+    "meta": {
+        "templateId": "js-crawlee-playwright"
+    },
+    "dockerfile": "./Dockerfile",
+    "input": "./input_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "output": "./output_schema.json",
+    "categories": [
+        "COMMUNICATION",
+        "SOCIAL_MEDIA",
+        "LEAD_GENERATION",
+        "MARKETING"
+    ],
+    "environmentVariables": {
+        "APIFY_DISABLE_BROWSER_SANDBOX": "1"
+    }
+}
