@@ -1,0 +1,112 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "type": "string",
+                "title": "Entity Type"
+            },
+            "url": {
+                "type": "string",
+                "title": "Discord URL"
+            },
+            "id": {
+                "type": "string",
+                "title": "Server / Guild / Message ID"
+            },
+            "serverName": {
+                "type": "string",
+                "title": "Server Name"
+            },
+            "serverDescription": {
+                "type": "string",
+                "title": "Server Description"
+            },
+            "approximateMemberCount": {
+                "type": "integer",
+                "title": "Total Members Count"
+            },
+            "approximatePresenceCount": {
+                "type": "integer",
+                "title": "Online Presence Count"
+            },
+            "iconUrl": {
+                "type": "string",
+                "title": "Server Icon URL"
+            },
+            "bannerUrl": {
+                "type": "string",
+                "title": "Server Banner / Splash URL"
+            },
+            "vanityUrlCode": {
+                "type": "string",
+                "title": "Vanity Invite Code"
+            },
+            "features": {
+                "type": "array",
+                "title": "Server Features"
+            },
+            "channelId": {
+                "type": "string",
+                "title": "Channel ID"
+            },
+            "channelName": {
+                "type": "string",
+                "title": "Channel Name"
+            },
+            "messageId": {
+                "type": "string",
+                "title": "Message ID"
+            },
+            "content": {
+                "type": "string",
+                "title": "Message Content Text"
+            },
+            "authorUsername": {
+                "type": "string",
+                "title": "Message Author"
+            },
+            "isBot": {
+                "type": "boolean",
+                "title": "Author is Bot"
+            },
+            "timestamp": {
+                "type": "string",
+                "title": "Message Timestamp"
+            },
+            "attachments": {
+                "type": "array",
+                "title": "Attached Files / Media"
+            },
+            "reactions": {
+                "type": "array",
+                "title": "Reactions List"
+            },
+            "email": {
+                "type": "string",
+                "title": "Contact Email"
+            },
+            "emails": {
+                "type": "array",
+                "title": "Extracted Emails"
+            },
+            "phone": {
+                "type": "string",
+                "title": "Contact Phone"
+            },
+            "externalLinks": {
+                "type": "array",
+                "title": "External Links"
+            },
+            "searchQuery": {
+                "type": "string",
+                "title": "Search Keyword"
+            },
+            "scrapedAt": {
+                "type": "string",
+                "title": "Scraped At Timestamp"
+            }
+        }
+    }
+}
