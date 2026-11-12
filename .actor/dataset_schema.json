@@ -1,7 +1,9 @@
 {
     "actorSpecification": 1,
     "fields": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
+        "additionalProperties": true,
         "properties": {
             "type": {
                 "type": "string",
@@ -14,6 +16,10 @@
             "id": {
                 "type": "string",
                 "title": "Server / Guild / Message ID"
+            },
+            "inviteCode": {
+                "type": "string",
+                "title": "Invite Code"
             },
             "serverName": {
                 "type": "string",
@@ -43,9 +49,16 @@
                 "type": "string",
                 "title": "Vanity Invite Code"
             },
+            "verificationLevel": {
+                "type": "integer",
+                "title": "Verification Level"
+            },
             "features": {
                 "type": "array",
-                "title": "Server Features"
+                "title": "Server Features",
+                "items": {
+                    "type": "string"
+                }
             },
             "channelId": {
                 "type": "string",
@@ -67,6 +80,14 @@
                 "type": "string",
                 "title": "Message Author"
             },
+            "authorGlobalName": {
+                "type": "string",
+                "title": "Author Display Name"
+            },
+            "authorId": {
+                "type": "string",
+                "title": "Author ID"
+            },
             "isBot": {
                 "type": "boolean",
                 "title": "Author is Bot"
@@ -77,11 +98,17 @@
             },
             "attachments": {
                 "type": "array",
-                "title": "Attached Files / Media"
+                "title": "Attached Files / Media",
+                "items": {
+                    "type": "object"
+                }
             },
             "reactions": {
                 "type": "array",
-                "title": "Reactions List"
+                "title": "Reactions List",
+                "items": {
+                    "type": "object"
+                }
             },
             "email": {
                 "type": "string",
@@ -89,23 +116,74 @@
             },
             "emails": {
                 "type": "array",
-                "title": "Extracted Emails"
+                "title": "Extracted Emails",
+                "items": {
+                    "type": "string"
+                }
             },
             "phone": {
                 "type": "string",
                 "title": "Contact Phone"
             },
+            "phones": {
+                "type": "array",
+                "title": "Extracted Phones",
+                "items": {
+                    "type": "string"
+                }
+            },
             "externalLinks": {
                 "type": "array",
-                "title": "External Links"
+                "title": "External Links",
+                "items": {
+                    "type": "string"
+                }
             },
             "searchQuery": {
                 "type": "string",
                 "title": "Search Keyword"
             },
+            "source": {
+                "type": "string",
+                "title": "Extraction Source Engine"
+            },
             "scrapedAt": {
                 "type": "string",
                 "title": "Scraped At Timestamp"
+            }
+        }
+    },
+    "views": {
+        "overview": {
+            "title": "Overview",
+            "transformation": {
+                "fields": [
+                    "type",
+                    "serverName",
+                    "approximateMemberCount",
+                    "approximatePresenceCount",
+                    "serverDescription",
+                    "content",
+                    "authorUsername",
+                    "searchQuery",
+                    "url",
+                    "scrapedAt"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "type": { "label": "Type", "format": "text" },
+                    "serverName": { "label": "Server", "format": "text" },
+                    "approximateMemberCount": { "label": "Members", "format": "number" },
+                    "approximatePresenceCount": { "label": "Online", "format": "number" },
+                    "serverDescription": { "label": "Description", "format": "text" },
+                    "content": { "label": "Message", "format": "text" },
+                    "authorUsername": { "label": "Author", "format": "text" },
+                    "searchQuery": { "label": "Keyword", "format": "text" },
+                    "url": { "label": "URL", "format": "link" },
+                    "scrapedAt": { "label": "Scraped At", "format": "date" }
+                }
             }
         }
     }
