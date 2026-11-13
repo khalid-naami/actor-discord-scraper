@@ -68,7 +68,8 @@
             "title": "Discord Token (Optional)",
             "type": "string",
             "description": "Optional Discord Bot or User token for extracting channel messages. Not needed for public server invites.",
-            "editor": "textfield"
+            "editor": "textfield",
+            "isSecret": true
         },
         "proxyConfiguration": {
             "title": "Proxy Configuration",
