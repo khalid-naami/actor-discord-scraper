@@ -100,14 +100,18 @@
                 "type": "array",
                 "title": "Attached Files / Media",
                 "items": {
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": true,
+                    "required": []
                 }
             },
             "reactions": {
                 "type": "array",
                 "title": "Reactions List",
                 "items": {
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": true,
+                    "required": []
                 }
             },
             "email": {
@@ -151,7 +155,8 @@
                 "type": "string",
                 "title": "Scraped At Timestamp"
             }
-        }
+        },
+        "required": []
     },
     "views": {
         "overview": {
@@ -173,16 +178,46 @@
             "display": {
                 "component": "table",
                 "properties": {
-                    "type": { "label": "Type", "format": "text" },
-                    "serverName": { "label": "Server", "format": "text" },
-                    "approximateMemberCount": { "label": "Members", "format": "number" },
-                    "approximatePresenceCount": { "label": "Online", "format": "number" },
-                    "serverDescription": { "label": "Description", "format": "text" },
-                    "content": { "label": "Message", "format": "text" },
-                    "authorUsername": { "label": "Author", "format": "text" },
-                    "searchQuery": { "label": "Keyword", "format": "text" },
-                    "url": { "label": "URL", "format": "link" },
-                    "scrapedAt": { "label": "Scraped At", "format": "date" }
+                    "type": {
+                        "label": "Type",
+                        "format": "text"
+                    },
+                    "serverName": {
+                        "label": "Server",
+                        "format": "text"
+                    },
+                    "approximateMemberCount": {
+                        "label": "Members",
+                        "format": "number"
+                    },
+                    "approximatePresenceCount": {
+                        "label": "Online",
+                        "format": "number"
+                    },
+                    "serverDescription": {
+                        "label": "Description",
+                        "format": "text"
+                    },
+                    "content": {
+                        "label": "Message",
+                        "format": "text"
+                    },
+                    "authorUsername": {
+                        "label": "Author",
+                        "format": "text"
+                    },
+                    "searchQuery": {
+                        "label": "Keyword",
+                        "format": "text"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "format": "link"
+                    },
+                    "scrapedAt": {
+                        "label": "Scraped At",
+                        "format": "date"
+                    }
                 }
             }
         }
