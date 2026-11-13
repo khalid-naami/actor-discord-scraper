@@ -12,6 +12,11 @@ import {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function isProxyTransportError(errOrStatus) {
+    const msg = String(errOrStatus?.message || errOrStatus || '');
+    return errOrStatus === 597 || errOrStatus === 407 || /597|UPSTREAM407|407|Proxy responded with|tunneling socket/i.test(msg);
+}
+
 await Actor.init();
 
 const diagnostics = [];
@@ -65,7 +70,7 @@ try {
         ? channelIds.map((c) => String(c || '').trim()).filter(Boolean)
         : [];
 
-    if (urlsToProcess.length === 0 && keywordsToProcess.length === 0 && channelsToProcess.length === 0) {
+    if (mode === 'AUTO_DETECT' && urlsToProcess.length === 0 && keywordsToProcess.length === 0 && channelsToProcess.length === 0) {
         urlsToProcess = [
             'https://discord.gg/python',
             'https://discord.gg/openai'
@@ -73,12 +78,13 @@ try {
         log.info('ℹ️ No inputs provided. Defaulting to sample Discord servers:', { urls: urlsToProcess });
     }
 
+    let proxyDisabled = false;
     async function httpRequest(url, { accept = 'application/json, text/plain, */*', parseJson = false, token = '' } = {}) {
-        const maxAttempts = proxyConfig ? 3 : 2;
+        const maxAttempts = proxyConfig && !proxyDisabled ? 3 : 2;
         let lastErr = null;
 
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
-            const proxyUrl = proxyConfig ? await proxyConfig.newUrl() : undefined;
+            const proxyUrl = proxyConfig && !proxyDisabled ? await proxyConfig.newUrl() : undefined;
             const headers = {
                 'Accept': accept,
                 'Accept-Language': 'en-US,en;q=0.9'
@@ -104,6 +110,16 @@ try {
 
                 const statusCode = res.statusCode;
                 const bodyText = typeof res.body === 'string' ? res.body : String(res.body || '');
+
+                if (isProxyTransportError(statusCode)) {
+                    lastErr = new Error(`Proxy transport HTTP ${statusCode} on ${url}`);
+                    if (attempt + 1 < maxAttempts) {
+                        if (attempt >= 1) proxyDisabled = true;
+                        await sleep(1000);
+                        continue;
+                    }
+                    throw lastErr;
+                }
 
                 if (statusCode === 429 || (statusCode >= 500 && statusCode < 600)) {
                     const retryAfter = Number(res.headers['retry-after']) || 2;
@@ -132,6 +148,13 @@ try {
                 return { statusCode, text: bodyText };
             } catch (err) {
                 lastErr = err;
+                if (isProxyTransportError(err)) {
+                    if (attempt >= 1) proxyDisabled = true;
+                    if (attempt + 1 < maxAttempts) {
+                        await sleep(1000);
+                        continue;
+                    }
+                }
                 if (err.statusCode && err.statusCode < 500 && err.statusCode !== 429) {
                     throw err;
                 }
@@ -176,7 +199,8 @@ try {
     };
 
     // 1. PROCESS TARGET SERVERS / INVITES
-    for (const rawUrl of urlsToProcess.slice(0, itemLimit)) {
+    if (mode === 'AUTO_DETECT' || mode === 'SERVERS') {
+        for (const rawUrl of urlsToProcess.slice(0, itemLimit)) {
         const code = extractInviteCode(rawUrl);
         if (!code) {
             log.warning('⚠️ Skipping unrecognized Discord invite URL:', { rawUrl });
@@ -200,9 +224,10 @@ try {
             stats.failed++;
         }
     }
+    }
 
     // 2. PROCESS CHANNEL MESSAGES
-    if (channelsToProcess.length > 0) {
+    if ((mode === 'AUTO_DETECT' || mode === 'MESSAGES') && channelsToProcess.length > 0) {
         const cleanToken = String(discordToken || '').trim();
         if (!cleanToken) {
             const msg = 'discordToken is required to extract Discord channel messages.';
@@ -263,7 +288,7 @@ try {
     }
 
     // 3. PROCESS SERVER FINDER BY KEYWORD
-    if (keywordsToProcess.length > 0) {
+    if ((mode === 'AUTO_DETECT' || mode === 'SERVER_FINDER') && keywordsToProcess.length > 0) {
         for (const keyword of keywordsToProcess) {
             log.info(`🔍 Searching public Discord communities for: "${keyword}"`);
             try {
